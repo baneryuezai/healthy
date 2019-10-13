@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.IT.liuJia.dao.MenuDao">
+<select id="findParentMenus" parameterType="string" resultType="menu">
+   SELECT me.* FROM  t_user u ,t_user_role ur,t_role r,t_role_menu rm, t_menu me WHERE u.id = ur.user_id
+   AND r.id = ur.role_id AND  r.id = rm.role_id AND me.`id`=rm.menu_id AND  u.username =#{username}  AND   LEVEL =1
+</select>
+
+
+    <select id="findchildrenMenus" parameterType="int" resultType="menu">
+          SELECT  *  FROM  t_menu WHERE  parentMenuId =#{id}
+    </select>
+ </mapper>
