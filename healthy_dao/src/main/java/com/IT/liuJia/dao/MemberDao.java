@@ -3,6 +3,8 @@ package com.IT.liuJia.dao;
 import com.IT.liuJia.pojo.Member;
 import com.github.pagehelper.Page;
 import com.IT.liuJia.pojo.Member;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface MemberDao {
@@ -17,4 +19,5 @@ public interface MemberDao {
     public Integer findMemberCountByDate(String date);
     public Integer findMemberCountAfterDate(String date);
     public Integer findMemberTotalCount();
+    public Integer findMemberCountMonthDate(@Param("strFromDate")String strFromDate, @Param("strToDate") String strToDate);
 }

@@ -2,6 +2,7 @@ package com.IT.liuJia.service;
 
 import com.IT.liuJia.pojo.Member;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,4 +17,8 @@ public interface MemberService {
     void add(Member member);
 
     Map<String,List<Object>> getMemberReport();
+
+    Map<String,List<Object>> getMouthMemberReport(Date one , Date two);
+
+
 }
