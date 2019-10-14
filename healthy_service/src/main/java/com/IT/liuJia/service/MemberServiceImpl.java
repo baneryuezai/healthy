@@ -187,4 +187,5 @@ public class MemberServiceImpl implements MemberService {
         map.put("memberCount",memberCount);
         return map;
     }
+
 }
