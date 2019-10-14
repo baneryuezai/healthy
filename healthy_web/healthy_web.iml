@@ -44,7 +44,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:jconsole:1.8.0">
         <CLASSES>
-          <root url="jar://E:/JDK/8jdk/File/lib/jconsole.jar!/" />
+          <root url="jar://D:/Java/jdk-8-171/lib/jconsole.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -53,7 +53,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:tools:1.8.0">
         <CLASSES>
-          <root url="jar://E:/JDK/8jdk/File/lib/tools.jar!/" />
+          <root url="jar://D:/Java/jdk-8-171/lib/tools.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
