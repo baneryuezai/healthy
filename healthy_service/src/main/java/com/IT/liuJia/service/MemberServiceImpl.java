@@ -84,44 +84,6 @@ public class MemberServiceImpl implements MemberService {
             return map;
     }
 
-
-	    @Override
-    public Map<String, List<Object>> getMouthMemberReport(Date fromDate,Date toDate) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");//格式化为年月
-//        Calendar  from  =  Calendar.getInstance();
-//        from.setTime(fromDate);
-//        Calendar  to  =  Calendar.getInstance();
-//        to.setTime(toDate);
-//        int fromYear = from.get(Calendar.YEAR);
-//        int fromMonth = from.get(Calendar.MONTH);
-//        int toYear = to.get(Calendar.YEAR);
-//        int toMonth = to.get(Calendar.MONTH);
-//        int month = toYear *  12  + toMonth  -  (fromYear  *  12  +  fromMonth)+1;
-
-        Calendar tempFrom = Calendar.getInstance();
-        tempFrom.setTime(fromDate);
-        tempFrom.set(tempFrom.get(Calendar.YEAR),tempFrom.get(Calendar.MONTH),1);
-
-        Calendar tempTo = Calendar.getInstance();
-        tempTo.setTime(toDate);
-        tempTo.set(tempTo.get(Calendar.YEAR),tempTo.get(Calendar.MONTH),2);
-
-        Calendar curr = tempFrom;
-        List<Object> months =new ArrayList<>();
-        List<Object> memberCount=new ArrayList<>();
-        while (curr.before(tempTo)) {
-            String monthStr = sdf.format(curr.getTime());
-            months.add(monthStr);
-            curr.add(Calendar.MONTH,1);
-            Integer monthCount = memberDao.findMemberCountMonthDate(monthStr + "-01",sdf.format(curr.getTime())+"-01");
-            memberCount.add(monthCount);
-        }
-        Map<String,List<Object>> map =new HashMap<>();
-        map.put("months",months);
-        map.put("memberCount",memberCount);
-        return map;
-    }
-
     @Override
     public Map<String, List<Object>> getMouthMemberReport(Date fromDate,Date toDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");//格式化为年月
