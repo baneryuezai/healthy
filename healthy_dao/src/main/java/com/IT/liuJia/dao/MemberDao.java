@@ -3,6 +3,8 @@ package com.IT.liuJia.dao;
 import com.IT.liuJia.pojo.Member;
 import com.github.pagehelper.Page;
 import com.IT.liuJia.pojo.Member;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface MemberDao {

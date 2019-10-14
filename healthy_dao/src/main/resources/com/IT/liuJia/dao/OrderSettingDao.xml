@@ -32,4 +32,9 @@
     <select id="getOrderSettingByMonth" parameterType="String" resultType="OrderSetting">
        select * From t_ordersetting where orderdate between #{startDate} and #{endDate}
     </select>
+
+    <!--定时清预约设置的历史数据-->
+    <delete id="clearOrderSetting" parameterType="string">
+        delete from t_ordersetting where orderDate &lt; #{value}
+    </delete>
 </mapper>

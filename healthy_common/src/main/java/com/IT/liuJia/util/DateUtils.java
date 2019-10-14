@@ -1,6 +1,4 @@
 package com.IT.liuJia.util;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 /**
