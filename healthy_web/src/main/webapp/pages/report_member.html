@@ -12,10 +12,46 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../plugins/elementui/index.css">
     <script src="../plugins/echarts/echarts.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
+<!-- 引入组件库 -->
+<script src="../js/vue.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script src="../plugins/echars/echarts.js"></script>
+
+
 <body class="hold-transition">
+
+<script src="js/vue.js"></script>
+<script src="plugins/elementui/index.js"></script>
+<script src="plugins/elementui/index.css"></script>
+
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+
 <div id="app">
     <div class="content-header">
+        <div id="app2">
+            <template>
+                <div class="block">
+                    <!--<span class="demonstration">默认</span>-->
+                    <el-date-picker
+                            v-model="value1"
+                            type="monthrange"
+                            range-separator="至"
+                            start-placeholder="开始月份"
+                            end-placeholder="结束月份"
+                            @change="dateChangebirthday"
+                            format="yyyy-MM"
+                            value-format="yyyy-MM"
+                    >
+                    </el-date-picker>
+                </div>
+            </template>
+        </div>
+
         <h1>统计分析
             <small>会员数量</small>
         </h1>
@@ -33,12 +69,8 @@
     </div>
 </div>
 </body>
-<!-- 引入组件库 -->
-<script src="../js/vue.js"></script>
-<script src="../js/axios-0.18.0.js"></script>
-<script src="../plugins/echarts/echarts.js"></script>
-<script type="text/javascript">
 
+<script type="text/javascript">
 
     // 基于准备好的dom，初始化echarts实例
     var myChart1 = echarts.init(document.getElementById('chart1'));
@@ -80,5 +112,73 @@
 //    months:[],
 //    memberCount: []
 // }}
+    var Main = {
+        data() {
+            return {
+                pickerOptions: {
+                    shortcuts: [{
+                        text: '本月',
+                        onClick(picker) {
+                            picker.$emit('pick', [new Date(), new Date()]);
+                        }
+                    }, {
+                        text: '今年至今',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date(new Date().getFullYear(), 0);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近六个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setMonth(start.getMonth() - 6);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                value1: ''
+            };
+        },
+        methods: {
+            dateChangebirthday(val) {
+                // this.form.birthdayName = val;
+                axios.post("/report/getMouthMemberReport.do?dateValue="+val).then((res) => {
+                    if (res.data.flag) {
+                        myChart1.setOption(
+                            {
+                                title: {
+                                    text: '会员数量'
+                                },
+                                tooltip: {},
+                                legend: {
+                                    data: ['会员数量']
+                                },
+                                xAxis: {
+                                    data: res.data.data.months
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: '会员数量',
+                                    type: 'line',
+                                    data: res.data.data.memberCount
+                                }]
+                            });
+                    }else {
+                        this.$message({
+                            message:res.data.message,
+                            type:'error'
+                        })
+                    }
+                });
+            }
+        }
+    };
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#app2')
 </script>
+
 </html>
