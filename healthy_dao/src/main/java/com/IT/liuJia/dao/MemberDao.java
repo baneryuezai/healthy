@@ -6,6 +6,7 @@ import com.IT.liuJia.pojo.Member;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MemberDao {
     public List<Member> findAll();
@@ -20,4 +21,6 @@ public interface MemberDao {
     public Integer findMemberCountAfterDate(String date);
     public Integer findMemberTotalCount();
 	public Integer findMemberCountMonthDate(@Param("strFromDate")String strFromDate, @Param("strToDate") String strToDate);
+    List<Map<String,String>> findMemberOfGender();
+    Map<String,Integer> findStageCount();
 }

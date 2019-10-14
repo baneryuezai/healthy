@@ -28,6 +28,34 @@
         select count(id) from t_member where regTime &gt;= #{strFromDate} and regTime &lt; #{strToDate}
     </select>
 
+    <!--获取男女比例-->
+    <select id="findMemberOfGender" resultType="map">
+        select sex name,count(id) value from t_member group by sex
+    </select>
+
+    <!--获取年龄段比例-->
+    <select id="findStageCount" resultType="map">
+        SELECT
+            sum(case when stage='0-18' then 1 end) as '0-18',
+            sum(case when stage='18-30' then 1 end) as '18-30',
+            sum(case when stage='30-45' then 1 end) as '30-45',
+            sum(case when stage='45-' then 1 end) as '45-',
+            sum(case when stage='未设置年龄' then 1 end) as '未设置年龄'
+        FROM (
+                SELECT
+                    ( CASE 	WHEN age &lt; 18 THEN '0-18'
+                    WHEN age &lt; 30 THEN '18-30'
+                    WHEN age &lt; 45 THEN '30-45'
+                    WHEN age &gt; 45 THEN '45-'
+                    ELSE '未设置年龄' END) AS stage
+                FROM
+                    (
+                        SELECT
+                            TIMESTAMPDIFF(YEAR,birthday,NOW()
+                    ) AS age
+                        FROM
+                            t_member ) t) x
+    </select>
 
     <!--删除会员-->
     <delete id="deleteById" parameterType="int">

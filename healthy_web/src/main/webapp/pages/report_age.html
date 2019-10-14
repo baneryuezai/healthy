@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>report_age</title>
+    <!-- 引入 ECharts 文件 -->
+    <script src="../plugins/echarts/echarts.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="app-container">
+        <div class="box">
+            <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+            <div id="chart1" style="height:600px;"></div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 引入组件库 -->
+<script src="../js/vue.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 580px;height:400px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chart1'));
+
+    // 指定图表的配置项和数据
+    axios.post("/report/getMemberOfAge.do").then((res) => {
+        if (res.data.flag) {
+            myChart.setOption({
+                title: {
+                    text: '会员性别组成饼形图',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    x: 'left',
+                    y: 'top',
+                    data: res.data.data.listOfStageName
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        saveAsImage: {show: true}
+                    }
+                },
+                calculable: true,
+                series: [
+                    {
+                        name: '面积模式',
+                        type: 'pie',
+                        radius: [50, 180],
+                        center: ['50%', '50%'],
+                        roseType: 'area',
+                        data: res.data.data.list
+                    }
+                ]
+            });
+        } else {
+            this.$message({
+                message: res.data.message,
+                type: 'error'
+            })
+        }
+    })
+
+    // // 使用刚指定的配置项和数据显示图表。
+    // myChart.setOption(option);
+</script>
+
+</html>

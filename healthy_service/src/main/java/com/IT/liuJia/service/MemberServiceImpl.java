@@ -84,45 +84,74 @@ public class MemberServiceImpl implements MemberService {
             return map;
     }
 
+    @Override
+    public Map<String, Object> findMemberOfGender() {
+        List<String> sexList = new ArrayList<>();
+        List<Map<String, String>> list = memberDao.findMemberOfGender();
+        for (Map map : list) {
+            String name = (String) map.get("name");
 
-	    @Override
-    public Map<String, List<Object>> getMouthMemberReport(Date fromDate,Date toDate) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");//格式化为年月
-//        Calendar  from  =  Calendar.getInstance();
-//        from.setTime(fromDate);
-//        Calendar  to  =  Calendar.getInstance();
-//        to.setTime(toDate);
-//        int fromYear = from.get(Calendar.YEAR);
-//        int fromMonth = from.get(Calendar.MONTH);
-//        int toYear = to.get(Calendar.YEAR);
-//        int toMonth = to.get(Calendar.MONTH);
-//        int month = toYear *  12  + toMonth  -  (fromYear  *  12  +  fromMonth)+1;
-
-        Calendar tempFrom = Calendar.getInstance();
-        tempFrom.setTime(fromDate);
-        tempFrom.set(tempFrom.get(Calendar.YEAR),tempFrom.get(Calendar.MONTH),1);
-
-        Calendar tempTo = Calendar.getInstance();
-        tempTo.setTime(toDate);
-        tempTo.set(tempTo.get(Calendar.YEAR),tempTo.get(Calendar.MONTH),2);
-
-        Calendar curr = tempFrom;
-        List<Object> months =new ArrayList<>();
-        List<Object> memberCount=new ArrayList<>();
-        while (curr.before(tempTo)) {
-            String monthStr = sdf.format(curr.getTime());
-            months.add(monthStr);
-            curr.add(Calendar.MONTH,1);
-            Integer monthCount = memberDao.findMemberCountMonthDate(monthStr + "-01",sdf.format(curr.getTime())+"-01");
-            memberCount.add(monthCount);
+            if ("1".equals(name)) {
+                map.put("name", "男");
+                sexList.add("男");
+            } else if ("2".equals(name)) {
+                map.put("name", "女");
+                sexList.add("女");
+            } else {
+                map.put("name", "未设置性别");
+                sexList.add("未设置性别");
+            }
         }
-        Map<String,List<Object>> map =new HashMap<>();
-        map.put("months",months);
-        map.put("memberCount",memberCount);
+        Map<String, Object> map = new HashMap<>();
+        map.put("sexList", sexList);
+        map.put("list", list);
+        System.out.println(sexList);
+        System.out.println(list);
+
         return map;
     }
 
     @Override
+    public Map<String, Object> getMemberOfAge() {
+        /**
+         * 需要数据的格式,
+         * {list=[{name=XX,value=xxx},{name=XX,value=xx},{name=XX,value=xx}],list1=[XX,XX,XX]}
+         *
+         * 现有数据格式
+         * {XX:xxx,XX:xxx,XX:xxx}
+         */
+        //该map(resultMap)是返回前端的map,用来存放多个list
+        Map<String, Object> resultMap = new HashMap<>();
+        //该list用来存放返回饼状图name和value的Map(mapOfNameAndValue)
+        List<Object> list = new ArrayList<>();
+        //该list(listOfStage)用来存放返回饼状图的name
+        List<String> listOfStageName = new ArrayList<>();
+
+        Map<String, Integer> map = memberDao.findStageCount();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            //该map(mapOfNameAndValue)用来存放返回饼状图name和value
+            Map<String, String> mapOfNameAndValue = new HashMap<>();
+
+            //将name和value存入mapOfNameAndValue
+            mapOfNameAndValue.put("name", entry.getKey());
+            mapOfNameAndValue.put("value", String.valueOf(entry.getValue()));
+            //将mapOfNameAndValue存入list
+            list.add(mapOfNameAndValue);
+            //将name存入listOfStageName
+            listOfStageName.add(entry.getKey());
+            //将list和listOfStageName存入resultMap中返回前端
+            resultMap.put("list", list);
+            resultMap.put("listOfStageName", listOfStageName);
+
+        }
+        System.out.println(map);
+        System.out.println("年龄段" + listOfStageName);
+        System.out.println("ListOfResultMap" + list);
+        System.out.println("返回前端的数据" + resultMap);
+        return resultMap;
+    }
+
+	    @Override
     public Map<String, List<Object>> getMouthMemberReport(Date fromDate,Date toDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");//格式化为年月
 //        Calendar  from  =  Calendar.getInstance();

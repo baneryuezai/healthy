@@ -180,4 +180,33 @@ public class ReportController {
         }
         return new Result(false, MessageConstant.GET_BUSINESS_REPORT_FAIL);
     }
+
+    /**
+     * 需求:
+     *      查询男女人数,及未设置性别的数量,制作成饼状图
+     * 作者:周王
+     * 时间:10/13/2019 8:20 PM
+     * @return
+     */
+    @PostMapping("/getMemberOfGender")
+    public Result getMemberOfGender(){
+        Map<String,Object> map = memberService.findMemberOfGender();
+        return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,map);
+    }
+
+
+    /**
+     * 需求:
+     *      查询各年龄段人数,及未设置年龄的数量,制作成饼状图
+     * 作者:周王
+     * 时间:10/14/2019 10:30 AM
+     * @return
+     */
+    @PostMapping("/getMemberOfAge")
+    public Result getMemberOfAge(){
+        Map<String,Object> map = memberService.getMemberOfAge();
+
+        return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,map);
+    }
+
 }

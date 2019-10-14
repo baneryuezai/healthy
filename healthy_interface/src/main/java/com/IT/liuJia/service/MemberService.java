@@ -19,4 +19,16 @@ public interface MemberService {
     Map<String,List<Object>> getMemberReport();
 
 	Map<String,List<Object>> getMouthMemberReport(Date one , Date two);
+
+    /**
+     * 男女性别比例饼状图
+     * @return
+     */
+    Map<String,Object> findMemberOfGender();
+
+    /**
+     * 年龄段比例饼状图
+     * @return
+     */
+    Map<String,Object> getMemberOfAge();
 }
