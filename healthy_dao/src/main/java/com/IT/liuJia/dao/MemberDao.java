@@ -17,4 +17,5 @@ public interface MemberDao {
     public Integer findMemberCountByDate(String date);
     public Integer findMemberCountAfterDate(String date);
     public Integer findMemberTotalCount();
+	public Integer findMemberCountMonthDate(@Param("strFromDate")String strFromDate, @Param("strToDate") String strToDate);
 }

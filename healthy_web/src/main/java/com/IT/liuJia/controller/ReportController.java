@@ -58,6 +58,30 @@ public class ReportController {
         Map<String, List<Object>> list = memberService.getMemberReport();
         return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS, list);
     }
+
+
+
+
+    @PostMapping("/getMouthMemberReport")
+    public Result getMouthMemberReport(String dateValue) throws ParseException {
+
+        System.out.println("dataValue"+dateValue);
+        String[] date = dateValue.split(",");
+
+//        Date fromDate = new Date();
+//        fromDate.setMonth(4);
+//        fromDate.setYear(2019);
+//
+//        Date toDate= new Date();
+//        toDate.setMonth(8);
+//        toDate.setYear(2019);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        Date fromDate = sdf.parse(date[0]);
+        Date toDate = sdf.parse(date[1]);
+        Map<String, List<Object>> list = memberService.getMouthMemberReport(fromDate,toDate);
+       return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS, list);
+    }
+
         /*套餐
         占比统计
         */
