@@ -11,6 +11,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import java.io.IOException;
 import java.util.HashMap;
@@ -62,10 +63,14 @@ public class PackageController {
 
     @PostMapping("/add")
     public Result add(@RequestBody Package pkg, Integer[] checkgroupIds) {
-        packageService.add(pkg, checkgroupIds);
-//        保存到数据库db中的图片
-        jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES,pkg.getImg());
-        return new Result(true, MessageConstant.ADD_PACKAGE_SUCCESS);
+        packageService.add(pkg,checkgroupIds);
+        Jedis jedis = jedisPool.getResource();
+        //保存成功的图片
+        jedis.sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES,pkg.getImg());
+        //清除redis中已缓存的套餐列表
+        jedis.del(RedisConstant.SETMEAL_PACKAGELIST_RESOURCES);
+        jedis.close();
+        return new Result(true,MessageConstant.ADD_PACKAGE_SUCCESS);
     }
     @PostMapping("/findPage")
     public Result findPage(@RequestBody QueryPageBean queryPageBean){

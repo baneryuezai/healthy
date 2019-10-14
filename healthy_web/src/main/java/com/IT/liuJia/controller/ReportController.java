@@ -58,6 +58,9 @@ public class ReportController {
         return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS, list);
     }
 
+
+
+
     @PostMapping("/getMouthMemberReport")
     public Result getMouthMemberReport(String dateValue) throws ParseException {
 

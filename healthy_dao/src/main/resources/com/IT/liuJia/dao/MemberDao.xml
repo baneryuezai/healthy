@@ -23,6 +23,12 @@
         values (#{fileNumber},#{name},#{sex},#{idCard},#{phoneNumber},#{regTime},#{password},#{email},#{birthday},#{remark})
     </insert>
 
+	 <!--根据日期统计会员数，统计指定日期之前的会员数-->
+    <select id="findMemberCountMonthDate" parameterType="string" resultType="int">
+        select count(id) from t_member where regTime &gt;= #{strFromDate} and regTime &lt; #{strToDate}
+    </select>
+
+
     <!--删除会员-->
     <delete id="deleteById" parameterType="int">
         delete from t_member where id = #{id}

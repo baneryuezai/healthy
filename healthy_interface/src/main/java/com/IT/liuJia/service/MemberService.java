@@ -18,7 +18,5 @@ public interface MemberService {
 
     Map<String,List<Object>> getMemberReport();
 
-    Map<String,List<Object>> getMouthMemberReport(Date one , Date two);
-
-
+	Map<String,List<Object>> getMouthMemberReport(Date one , Date two);
 }
