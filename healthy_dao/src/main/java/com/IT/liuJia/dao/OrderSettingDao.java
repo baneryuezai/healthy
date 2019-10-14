@@ -20,4 +20,9 @@ public interface OrderSettingDao {
     //更新可预约人数
     void editNumberByOrderDate(OrderSetting orderSetting);
 
+    /**
+     * 定时清预约设置的历史数据
+     * @param currentTime
+     */
+    void clearOrderSetting(String currentTime);
 }
